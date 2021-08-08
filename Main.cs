@@ -35,9 +35,6 @@ namespace BetterTime
         // Whenever any setting in Kaoses Tweaks is changed, set the base speed multiplier to the "Campaign Speed Fast Forward" setting.
         public void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => _fastForwardSpeed = (int)_kaosesTweaksSettings.GetType().GetProperty("CampaignSpeed").GetValue(_kaosesTweaksSettings);
 
-        public static bool IsSpeedFastForward { get; set; }
-        public static bool IsSpeedExtraFastForward { get; set; }
-        public static bool IsSpeedCtrlSpace { get; set; }
         private BaseSettings _kaosesTweaksSettings;
         private Settings _betterTimeSettings;
         private int _fastForwardSpeed;
@@ -56,21 +53,19 @@ namespace BetterTime
 
                 if (Input.IsKeyPressed(InputKey.D3))
                 {
-                    IsSpeedFastForward = true;
-                    IsSpeedExtraFastForward = false;
+                    Support.SetSpeeds(true, false);
                 }
                 if (Input.IsKeyPressed(InputKey.D4))
                 {
-                    IsSpeedFastForward = false;
-                    IsSpeedExtraFastForward = true;
+                    Support.SetSpeeds(false, true);
                     Campaign.Current.SetTimeSpeed(2);
                 }
 
                 if ((Input.IsKeyDown(InputKey.LeftControl) || Input.IsKeyDown(InputKey.RightControl)) && Input.IsKeyDown(InputKey.Space))
                 {
-                    if (!IsSpeedCtrlSpace)
+                    if (!Support.IsSpeedCtrlSpace)
                     {
-                        IsSpeedCtrlSpace = true;
+                        Support.SetSpeeds(true);
                         _currentSpeed = Campaign.Current.SpeedUpMultiplier;
                         _currentTimeMode = Campaign.Current.TimeControlMode;
                     }
@@ -79,18 +74,18 @@ namespace BetterTime
                 }
                 else
                 {
-                    if (IsSpeedCtrlSpace)
+                    if (Support.IsSpeedCtrlSpace)
                     {
-                        IsSpeedCtrlSpace = false;
+                        Support.SetSpeeds(false);
                         Campaign.Current.SpeedUpMultiplier = _currentSpeed;
                         Campaign.Current.TimeControlMode = _currentTimeMode;
                     }
                 }
-                if (IsSpeedFastForward)
+                if (Support.IsSpeedFastForward)
                 {
                     Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed * _betterTimeSettings.FastForwardMultiplier;
                 }
-                else if (IsSpeedExtraFastForward)
+                else if (Support.IsSpeedExtraFastForward)
                 {
                     Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed * _betterTimeSettings.ExtraFastForwardMultiplier;
                 }
@@ -98,7 +93,7 @@ namespace BetterTime
                 {
                     Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed;
                 }
-                if (IsSpeedCtrlSpace)
+                if (Support.IsSpeedCtrlSpace)
                 {
                     Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed * _betterTimeSettings.CtrlSpaceMultiplier;
                 }

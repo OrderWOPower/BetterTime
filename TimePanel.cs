@@ -27,11 +27,11 @@ namespace BetterTime
                 var ffc = FastForwardButton.ClickEventHandlers;
                 if (fffc.Count == 0)
                 {
-                    fffc.Add((a) => { Main.IsSpeedFastForward = false; Main.IsSpeedExtraFastForward = true; });
+                    fffc.Add(a => Support.SetSpeeds(false, true));
                 }
                 if (ffc.Count == 0)
                 {
-                    ffc.Add((a) => { Main.IsSpeedFastForward = true; Main.IsSpeedExtraFastForward = false; });
+                    ffc.Add(a => Support.SetSpeeds(true, false));
                 }
 
                 SetState("Default");
@@ -44,19 +44,17 @@ namespace BetterTime
                     case 0:
                     case 6:
                         PauseButton.IsSelected = true;
-                        Main.IsSpeedFastForward = false;
-                        Main.IsSpeedExtraFastForward = false;
+                        Support.SetSpeeds(false, false);
                         break;
                     case 1:
                     case 3:
                         PlayButton.IsSelected = true;
-                        Main.IsSpeedFastForward = false;
-                        Main.IsSpeedExtraFastForward = false;
+                        Support.SetSpeeds(false, false);
                         break;
                     case 2:
                     case 4:
                     case 5:
-                        if (Main.IsSpeedExtraFastForward || Main.IsSpeedCtrlSpace)
+                        if (Support.IsSpeedExtraFastForward || Support.IsSpeedCtrlSpace)
                         {
                             FastFastForwardButton.IsSelected = true;
                         }
