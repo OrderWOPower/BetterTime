@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using Bannerlord.UIExtenderEx;
 using MCM.Abstractions.Settings.Base;
-using MCM.Abstractions.Settings.Base.Global;
 using MCM.Abstractions.Settings.Providers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Engine.Screens;
@@ -25,7 +24,7 @@ namespace BetterTime
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             _kaosesTweaksSettings = BaseSettingsProvider.Instance?.GetSettings("KaosesTweaks");
-            _betterTimeSettings = GlobalSettings<Settings>.Instance;
+            _betterTimeSettings = Settings.Instance;
             _fastForwardSpeed = (int?)_kaosesTweaksSettings?.GetType().GetProperty("CampaignSpeed").GetValue(_kaosesTweaksSettings) ?? 4;
             if (_kaosesTweaksSettings != null)
             {

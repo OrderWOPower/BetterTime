@@ -6,7 +6,7 @@ namespace BetterTime
 {
     public class Settings : AttributeGlobalSettings<Settings>
     {
-        // The settings for the Fast Forward button, Extra Fast Forward button and Ctrl + Space are 1x, 2x and 3x the base speed multiplier (4x). The actual speed multipliers are 4x, 8x and 12x.
+        // The default settings for the Fast Forward button, Extra Fast Forward button and Ctrl + Space are 1x, 2x and 3x the base speed multiplier (4x). The actual speed multipliers are 4x, 8x and 12x.
         public override string Id => "BetterTime";
         public override string DisplayName => "Better Time";
         public override string FolderName => "BetterTime";
