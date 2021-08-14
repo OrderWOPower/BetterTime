@@ -1,4 +1,4 @@
-﻿using Bannerlord.UIExtenderEx.Attributes;
+using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.ViewModels;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Map;
 using TaleWorlds.Core;
@@ -11,7 +11,7 @@ namespace BetterTime
     public class Mixin : BaseViewModelMixin<MapTimeControlVM>
     {
         // Add the hint tooltip to the Extra Fast Forward button.
-        public Mixin(MapTimeControlVM mapTimeControl) : base(mapTimeControl)
+        public Mixin(MapTimeControlVM mapTimeControlVM) : base(mapTimeControlVM)
         {
             FastFastForwardHint = new BasicTooltipViewModel(delegate ()
             {
