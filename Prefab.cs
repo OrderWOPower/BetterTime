@@ -12,7 +12,7 @@ namespace BetterTime
         {
             public override InsertType Type => InsertType.ReplaceKeepChildren;
             [PrefabExtensionText(true)]
-            public string Text => "<DiscardedRoot><TimePanel DataSource=\"{MapTimeControl}\" Id=\"CenterPanel\" VisualDefinition=\"CenterPanel\" WidthSizePolicy=\"Fixed\" HeightSizePolicy=\"Fixed\" SuggestedWidth=\"500\" SuggestedHeight=\"53\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Bottom\" Sprite=\"MapBar\\mapbar_center_frame\" CurrentTimeState=\"@TimeFlowState\" FastFastForwardButton=\"FastFastForwardButton\" FastForwardButton=\"FastForwardButton\" IsEnabled=\"@IsCenterPanelEnabled\" PauseButton=\"PauseButton\" PlayButton=\"PlayButton\"></TimePanel></DiscardedRoot>";
+            public string Text => "<DiscardedRoot><TimePanel DataSource=\"{MapTimeControl}\" Id=\"CenterPanel\" VisualDefinition=\"CenterPanel\" WidthSizePolicy=\"Fixed\" HeightSizePolicy=\"Fixed\" SuggestedWidth=\"500\" SuggestedHeight=\"59\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Bottom\" Sprite=\"MapBar\\mapbar_center_frame\" CurrentTimeState=\"@TimeFlowState\" FastFastForwardButton=\"FastFastForwardButton\" FastForwardButton=\"FastForwardButton\" IsEnabled=\"@IsCenterPanelEnabled\" PauseButton=\"PauseButton\" PlayButton=\"PlayButton\"></TimePanel></DiscardedRoot>";
         }
         // Reposition the date due to the stretched Center Panel.
         [PrefabExtension("MapBar", "descendant::TimePanel/Children/TextWidget", "MapBar")]
@@ -26,7 +26,7 @@ namespace BetterTime
         {
             public override InsertType Type => InsertType.Prepend;
             [PrefabExtensionText]
-            public string Text => "<ButtonWidget Id=\"FastFastForwardButton\" WidthSizePolicy=\"Fixed\" HeightSizePolicy=\"Fixed\" SuggestedWidth=\"35\" SuggestedHeight=\"24\" HorizontalAlignment=\"Right\" VerticalAlignment=\"Bottom\" PositionXOffset=\"-62\" PositionYOffset=\"-7\" Brush=\"MapBarFastForwardButton\" Command.Click=\"ExecuteTimeControlChange\" CommandParameter.Click=\"2\"><Children><HintWidget DataSource=\"{FastFastForwardHint}\" WidthSizePolicy=\"StretchToParent\" HeightSizePolicy=\"StretchToParent\" Command.HoverBegin=\"ExecuteBeginHint\" Command.HoverEnd=\"ExecuteEndHint\" IsDisabled=\"true\" /></Children></ButtonWidget>";
+            public string Text => "<ButtonWidget Id=\"FastFastForwardButton\" WidthSizePolicy=\"Fixed\" HeightSizePolicy=\"Fixed\" SuggestedWidth=\"35\" SuggestedHeight=\"24\" HorizontalAlignment=\"Right\" VerticalAlignment=\"Bottom\" PositionXOffset=\"-62\" PositionYOffset=\"-13\" Brush=\"MapBarFastForwardButton\" Command.Click=\"ExecuteTimeControlChange\" CommandParameter.Click=\"2\"><Children><HintWidget DataSource=\"{FastFastForwardHint}\" WidthSizePolicy=\"StretchToParent\" HeightSizePolicy=\"StretchToParent\" Command.HoverBegin=\"ExecuteBeginHint\" Command.HoverEnd=\"ExecuteEndHint\" IsDisabled=\"true\" /></Children></ButtonWidget>";
         }
         // Reposition the Fast Forward button due to the stretched Center Panel.
         [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='FastForwardButton']", "MapBar")]
