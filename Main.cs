@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
+﻿using HarmonyLib;
 using Bannerlord.UIExtenderEx;
-using MCM.Abstractions.Settings.Base;
-using MCM.Abstractions.Settings.Providers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.InputSystem;
@@ -15,29 +13,12 @@ namespace BetterTime
     {
         protected override void OnSubModuleLoad()
         {
+            new Harmony("mod.bannerlord.bettertime").PatchAll();
             UIExtender uiExtender = new UIExtender("BetterTime");
             uiExtender.Register(typeof(Main).Assembly);
             uiExtender.Enable();
         }
 
-        // If Kaoses Tweaks is loaded, set the base speed multiplier to the "Campaign Speed Fast Forward" setting. If not, set the base speed multiplier to 4.
-        protected override void OnBeforeInitialModuleScreenSetAsRoot()
-        {
-            _kaosesTweaksSettings = BaseSettingsProvider.Instance?.GetSettings("KaosesTweaks");
-            _betterTimeSettings = Settings.Instance;
-            _fastForwardSpeed = (int?)_kaosesTweaksSettings?.GetType().GetProperty("CampaignSpeed").GetValue(_kaosesTweaksSettings) ?? 4;
-            if (_kaosesTweaksSettings != null)
-            {
-                _kaosesTweaksSettings.PropertyChanged += OnPropertyChanged;
-            }
-        }
-        // Whenever any setting in Kaoses Tweaks is changed, set the base speed multiplier to the "Campaign Speed Fast Forward" setting.
-        public void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => _fastForwardSpeed = (int)_kaosesTweaksSettings.GetType().GetProperty("CampaignSpeed").GetValue(_kaosesTweaksSettings);
-
-        private BaseSettings _kaosesTweaksSettings;
-        private Settings _betterTimeSettings;
-        private int _fastForwardSpeed;
-        private float _currentSpeed;
         private CampaignTimeControlMode _currentTimeMode;
 
         // Set the speed multipliers when the respective keys are pressed.
@@ -52,11 +33,11 @@ namespace BetterTime
 
                 if (Input.IsKeyPressed(InputKey.D3))
                 {
-                    Support.SetSpeeds(true, false);
+                    Support.SetSpeed(true, false);
                 }
                 if (Input.IsKeyPressed(InputKey.D4))
                 {
-                    Support.SetSpeeds(false, true);
+                    Support.SetSpeed(false, true);
                     Campaign.Current.SetTimeSpeed(2);
                 }
 
@@ -64,8 +45,7 @@ namespace BetterTime
                 {
                     if (!Support.IsSpeedCtrlSpace)
                     {
-                        Support.SetSpeeds(true);
-                        _currentSpeed = Campaign.Current.SpeedUpMultiplier;
+                        Support.SetSpeed(true);
                         _currentTimeMode = Campaign.Current.TimeControlMode;
                     }
 
@@ -75,26 +55,9 @@ namespace BetterTime
                 {
                     if (Support.IsSpeedCtrlSpace)
                     {
-                        Support.SetSpeeds(false);
-                        Campaign.Current.SpeedUpMultiplier = _currentSpeed;
+                        Support.SetSpeed(false);
                         Campaign.Current.TimeControlMode = _currentTimeMode;
                     }
-                }
-                if (Support.IsSpeedFastForward)
-                {
-                    Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed * _betterTimeSettings.FastForwardMultiplier;
-                }
-                else if (Support.IsSpeedExtraFastForward)
-                {
-                    Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed * _betterTimeSettings.ExtraFastForwardMultiplier;
-                }
-                else
-                {
-                    Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed;
-                }
-                if (Support.IsSpeedCtrlSpace)
-                {
-                    Campaign.Current.SpeedUpMultiplier = _fastForwardSpeed * _betterTimeSettings.CtrlSpaceMultiplier;
                 }
             }
         }
