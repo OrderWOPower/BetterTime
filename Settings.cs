@@ -1,4 +1,4 @@
-﻿using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Settings.Base.Global;
 
@@ -6,7 +6,6 @@ namespace BetterTime
 {
     public class Settings : AttributeGlobalSettings<Settings>
     {
-        // The default settings for the Fast Forward button, Extra Fast Forward button and Ctrl + Space are 4, 8 and 16.
         public override string Id => "BetterTime";
         public override string DisplayName => "Better Time";
         public override string FolderName => "BetterTime";
