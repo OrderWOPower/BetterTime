@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
-using Bannerlord.UIExtenderEx;
+﻿using Bannerlord.UIExtenderEx;
+using HarmonyLib;
+using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
-using SandBox.View.Map;
 
 namespace BetterTime
 {

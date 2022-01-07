@@ -23,10 +23,7 @@ namespace BetterTime
         [DataSourceProperty]
         public BasicTooltipViewModel FastFastForwardHint
         {
-            get
-            {
-                return _fastFastForwardHint;
-            }
+            get => _fastFastForwardHint;
             set
             {
                 if (value != _fastFastForwardHint)
