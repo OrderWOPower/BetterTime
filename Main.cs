@@ -1,9 +1,9 @@
-﻿using Bannerlord.UIExtenderEx;
+﻿using Bannerlord.ButterLib.HotKeys;
+using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Engine.Screens;
-using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
 
 namespace BetterTime
@@ -19,47 +19,76 @@ namespace BetterTime
             uiExtender.Enable();
         }
 
-        private CampaignTimeControlMode _currentTimeMode;
-
         // Set the speed multipliers when the respective keys are pressed.
-        protected override void OnApplicationTick(float dt)
+        protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            if (ScreenManager.TopScreen is MapScreen)
+            if (!_isHotKeyManagerCreated)
             {
-                if (Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
-                {
-                    return;
-                }
-
-                if (Input.IsKeyPressed(InputKey.D3))
-                {
-                    Support.SetSpeed(true, false);
-                }
-                if (Input.IsKeyPressed(InputKey.D4))
+                HotKeyManager hotKeyManager = HotKeyManager.Create("BetterTime");
+                HotKeys.D3 d3 = hotKeyManager.Add<HotKeys.D3>();
+                HotKeys.D4 d4 = hotKeyManager.Add<HotKeys.D4>();
+                HotKeys.LCtrl lCtrl = hotKeyManager.Add<HotKeys.LCtrl>();
+                HotKeys.RCtrl rCtrl = hotKeyManager.Add<HotKeys.RCtrl>();
+                HotKeys.Space space = hotKeyManager.Add<HotKeys.Space>();
+                d3.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                d4.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                space.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                bool isCtrlDown = false;
+                d3.OnPressedEvent += () => Support.SetSpeed(true, false);
+                d4.OnPressedEvent += () =>
                 {
                     Support.SetSpeed(false, true);
                     Campaign.Current.SetTimeSpeed(2);
-                }
-
-                if ((Input.IsKeyDown(InputKey.LeftControl) || Input.IsKeyDown(InputKey.RightControl)) && Input.IsKeyDown(InputKey.Space))
+                };
+                lCtrl.OnPressedEvent += () => isCtrlDown = true;
+                lCtrl.OnReleasedEvent += () =>
                 {
-                    if (!Support.IsSpeedCtrlSpace)
+                    isCtrlDown = false;
+                    if (Support.IsSpeedCtrlSpace)
+                    {
+                        Support.SetSpeed(false);
+                        Campaign.Current.TimeControlMode = _currentTimeMode;
+                    }
+                };
+                rCtrl.OnPressedEvent += () => isCtrlDown = true;
+                rCtrl.OnReleasedEvent += () =>
+                {
+                    isCtrlDown = false;
+                    if (Support.IsSpeedCtrlSpace)
+                    {
+                        Support.SetSpeed(false);
+                        Campaign.Current.TimeControlMode = _currentTimeMode;
+                    }
+                };
+                space.OnPressedEvent += () =>
+                {
+                    if (isCtrlDown)
                     {
                         Support.SetSpeed(true);
                         _currentTimeMode = Campaign.Current.TimeControlMode;
                     }
-
-                    Campaign.Current.SetTimeSpeed(2);
-                }
-                else
+                };
+                space.IsDownEvent += () =>
+                {
+                    if (Support.IsSpeedCtrlSpace)
+                    {
+                        Campaign.Current.SetTimeSpeed(2);
+                    }
+                };
+                space.OnReleasedEvent += () =>
                 {
                     if (Support.IsSpeedCtrlSpace)
                     {
                         Support.SetSpeed(false);
                         Campaign.Current.TimeControlMode = _currentTimeMode;
                     }
-                }
+                };
+                hotKeyManager.Build();
+                _isHotKeyManagerCreated = true;
             }
         }
+
+        private bool _isHotKeyManagerCreated;
+        private CampaignTimeControlMode _currentTimeMode;
     }
 }
