@@ -10,16 +10,8 @@ namespace BetterTime
     [ViewModelMixin]
     public class Mixin : BaseViewModelMixin<MapTimeControlVM>
     {
-        // Add the hint tooltip to the Extra Fast Forward button.
-        public Mixin(MapTimeControlVM mapTimeControlVM) : base(mapTimeControlVM)
-        {
-            FastFastForwardHint = new BasicTooltipViewModel(delegate ()
-            {
-                GameTexts.SetVariable("TEXT", "Extra Fast Forward");
-                GameTexts.SetVariable("HOTKEY", "4");
-                return GameTexts.FindText("str_hotkey_with_hint", null).ToString();
-            });
-        }
+        private BasicTooltipViewModel _fastFastForwardHint;
+
         [DataSourceProperty]
         public BasicTooltipViewModel FastFastForwardHint
         {
@@ -32,6 +24,16 @@ namespace BetterTime
                 }
             }
         }
-        private BasicTooltipViewModel _fastFastForwardHint;
+
+        // Add the hint tooltip to the Extra Fast Forward button.
+        public Mixin(MapTimeControlVM mapTimeControlVM) : base(mapTimeControlVM)
+        {
+            FastFastForwardHint = new BasicTooltipViewModel(delegate ()
+            {
+                GameTexts.SetVariable("TEXT", "Extra Fast Forward");
+                GameTexts.SetVariable("HOTKEY", "4");
+                return GameTexts.FindText("str_hotkey_with_hint", null).ToString();
+            });
+        }
     }
 }

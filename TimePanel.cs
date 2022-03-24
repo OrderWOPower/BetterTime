@@ -7,6 +7,22 @@ namespace BetterTime
     {
         private ButtonWidget _fastFastForwardButton;
 
+        [Editor(false)]
+        public ButtonWidget FastFastForwardButton
+        {
+            get
+            {
+                return _fastFastForwardButton;
+            }
+            set
+            {
+                if (_fastFastForwardButton == value)
+                    return;
+                _fastFastForwardButton = value;
+                OnPropertyChanged(value, nameof(FastFastForwardButton));
+            }
+        }
+
         public TimePanel(UIContext context)
             : base(context)
         {
@@ -64,22 +80,6 @@ namespace BetterTime
                         }
                         break;
                 }
-            }
-        }
-
-        [Editor(false)]
-        public ButtonWidget FastFastForwardButton
-        {
-            get
-            {
-                return _fastFastForwardButton;
-            }
-            set
-            {
-                if (_fastFastForwardButton == value)
-                    return;
-                _fastFastForwardButton = value;
-                OnPropertyChanged(value, nameof(FastFastForwardButton));
             }
         }
     }

@@ -3,14 +3,17 @@ using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.Engine.Screens;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ScreenSystem;
 
 namespace BetterTime
 {
     // This mod adds an extra speed button to the time control panel. It is a fork of the original mod by Shemiroth, which I took over after it was discontinued.
     public partial class Main : MBSubModuleBase
     {
+        private bool _isHotKeyManagerCreated;
+        private CampaignTimeControlMode _currentTimeMode;
+
         protected override void OnSubModuleLoad()
         {
             new Harmony("mod.bannerlord.bettertime").PatchAll();
@@ -87,8 +90,5 @@ namespace BetterTime
                 _isHotKeyManagerCreated = true;
             }
         }
-
-        private bool _isHotKeyManagerCreated;
-        private CampaignTimeControlMode _currentTimeMode;
     }
 }
