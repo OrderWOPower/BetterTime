@@ -12,6 +12,7 @@ namespace BetterTime
     public partial class Main : MBSubModuleBase
     {
         private bool _isHotKeyManagerCreated;
+        private Speed _currentSpeed;
         private CampaignTimeControlMode _currentTimeMode;
 
         protected override void OnSubModuleLoad()
@@ -33,23 +34,23 @@ namespace BetterTime
                 HotKeys.LCtrl lCtrl = hotKeyManager.Add<HotKeys.LCtrl>();
                 HotKeys.RCtrl rCtrl = hotKeyManager.Add<HotKeys.RCtrl>();
                 HotKeys.Space space = hotKeyManager.Add<HotKeys.Space>();
+                bool isCtrlDown = false;
                 d3.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 d4.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 space.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                bool isCtrlDown = false;
-                d3.OnPressedEvent += () => Support.SetSpeed(true, false);
+                d3.OnPressedEvent += () => Support.SetTimeSpeed(Speed.FastForward);
                 d4.OnPressedEvent += () =>
                 {
-                    Support.SetSpeed(false, true);
+                    Support.SetTimeSpeed(Speed.ExtraFastForward);
                     Campaign.Current.SetTimeSpeed(2);
                 };
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
                 lCtrl.OnReleasedEvent += () =>
                 {
                     isCtrlDown = false;
-                    if (Support.IsSpeedCtrlSpace)
+                    if (Support.TimeSpeed == Speed.CtrlSpace)
                     {
-                        Support.SetSpeed(false);
+                        Support.SetTimeSpeed(_currentSpeed);
                         Campaign.Current.TimeControlMode = _currentTimeMode;
                     }
                 };
@@ -57,9 +58,9 @@ namespace BetterTime
                 rCtrl.OnReleasedEvent += () =>
                 {
                     isCtrlDown = false;
-                    if (Support.IsSpeedCtrlSpace)
+                    if (Support.TimeSpeed == Speed.CtrlSpace)
                     {
-                        Support.SetSpeed(false);
+                        Support.SetTimeSpeed(_currentSpeed);
                         Campaign.Current.TimeControlMode = _currentTimeMode;
                     }
                 };
@@ -67,22 +68,23 @@ namespace BetterTime
                 {
                     if (isCtrlDown)
                     {
-                        Support.SetSpeed(true);
+                        _currentSpeed = Support.TimeSpeed;
                         _currentTimeMode = Campaign.Current.TimeControlMode;
+                        Support.SetTimeSpeed(Speed.CtrlSpace);
                     }
                 };
                 space.IsDownEvent += () =>
                 {
-                    if (Support.IsSpeedCtrlSpace)
+                    if (Support.TimeSpeed == Speed.CtrlSpace)
                     {
                         Campaign.Current.SetTimeSpeed(2);
                     }
                 };
                 space.OnReleasedEvent += () =>
                 {
-                    if (Support.IsSpeedCtrlSpace)
+                    if (Support.TimeSpeed == Speed.CtrlSpace)
                     {
-                        Support.SetSpeed(false);
+                        Support.SetTimeSpeed(_currentSpeed);
                         Campaign.Current.TimeControlMode = _currentTimeMode;
                     }
                 };
