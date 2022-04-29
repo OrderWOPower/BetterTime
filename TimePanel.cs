@@ -29,7 +29,7 @@ namespace BetterTime
             AddState("Disabled");
         }
 
-        // Set the speed multipliers when the respective buttons are clicked.
+        // Set the speeds when the respective buttons are clicked.
         protected override void OnUpdate(float dt)
         {
             base.OnUpdate(dt);

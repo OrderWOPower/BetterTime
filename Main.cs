@@ -3,6 +3,7 @@ using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ScreenSystem;
 
@@ -23,7 +24,7 @@ namespace BetterTime
             uiExtender.Enable();
         }
 
-        // Set the speed multipliers when the respective keys are pressed.
+        // Set the speeds when the respective keys are pressed.
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             if (!_isHotKeyManagerCreated)
@@ -38,58 +39,76 @@ namespace BetterTime
                 d3.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 d4.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 space.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                d3.OnPressedEvent += () => Support.SetTimeSpeed(Speed.FastForward);
-                d4.OnPressedEvent += () =>
-                {
-                    Support.SetTimeSpeed(Speed.ExtraFastForward);
-                    Campaign.Current.SetTimeSpeed(2);
-                };
+                d3.OnPressedEvent += () => OnPressed(d3);
+                d4.OnPressedEvent += () => OnPressed(d4);
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
                 lCtrl.OnReleasedEvent += () =>
                 {
                     isCtrlDown = false;
-                    if (Support.TimeSpeed == Speed.CtrlSpace)
-                    {
-                        Support.SetTimeSpeed(_currentSpeed);
-                        Campaign.Current.TimeControlMode = _currentTimeMode;
-                    }
+                    OnReleased(lCtrl);
                 };
                 rCtrl.OnPressedEvent += () => isCtrlDown = true;
                 rCtrl.OnReleasedEvent += () =>
                 {
                     isCtrlDown = false;
-                    if (Support.TimeSpeed == Speed.CtrlSpace)
-                    {
-                        Support.SetTimeSpeed(_currentSpeed);
-                        Campaign.Current.TimeControlMode = _currentTimeMode;
-                    }
+                    OnReleased(rCtrl);
                 };
                 space.OnPressedEvent += () =>
                 {
                     if (isCtrlDown)
                     {
-                        _currentSpeed = Support.TimeSpeed;
-                        _currentTimeMode = Campaign.Current.TimeControlMode;
-                        Support.SetTimeSpeed(Speed.CtrlSpace);
+                        OnPressed(space);
                     }
                 };
-                space.IsDownEvent += () =>
-                {
-                    if (Support.TimeSpeed == Speed.CtrlSpace)
-                    {
-                        Campaign.Current.SetTimeSpeed(2);
-                    }
-                };
-                space.OnReleasedEvent += () =>
-                {
-                    if (Support.TimeSpeed == Speed.CtrlSpace)
-                    {
-                        Support.SetTimeSpeed(_currentSpeed);
-                        Campaign.Current.TimeControlMode = _currentTimeMode;
-                    }
-                };
+                space.IsDownEvent += () => IsDown(space);
+                space.OnReleasedEvent += () => OnReleased(space);
                 hotKeyManager.Build();
                 _isHotKeyManagerCreated = true;
+            }
+        }
+
+        private void OnPressed(HotKeyBase hotKey)
+        {
+            if (PlayerEncounter.Current == null || (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting))
+            {
+                if (hotKey is HotKeys.D3)
+                {
+                    Support.SetTimeSpeed(Speed.FastForward);
+                }
+                else if (hotKey is HotKeys.D4)
+                {
+                    Support.SetTimeSpeed(Speed.ExtraFastForward);
+                    Campaign.Current.SetTimeSpeed(2);
+                }
+                else if (hotKey is HotKeys.Space)
+                {
+                    _currentSpeed = Support.TimeSpeed;
+                    _currentTimeMode = Campaign.Current.TimeControlMode;
+                    Support.SetTimeSpeed(Speed.CtrlSpace);
+                }
+            }
+        }
+
+        private void IsDown(HotKeyBase hotKey)
+        {
+            if (hotKey is HotKeys.Space)
+            {
+                if (Support.TimeSpeed == Speed.CtrlSpace)
+                {
+                    Campaign.Current.SetTimeSpeed(2);
+                }
+            }
+        }
+
+        private void OnReleased(HotKeyBase hotKey)
+        {
+            if (hotKey is HotKeys.LCtrl || hotKey is HotKeys.RCtrl || hotKey is HotKeys.Space)
+            {
+                if (Support.TimeSpeed == Speed.CtrlSpace)
+                {
+                    Support.SetTimeSpeed(_currentSpeed);
+                    Campaign.Current.TimeControlMode = _currentTimeMode;
+                }
             }
         }
     }
