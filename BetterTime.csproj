@@ -43,9 +43,6 @@
     <Reference Include="MCMv4">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCMv4.dll</HintPath>
     </Reference>
-    <Reference Include="SandBox.GauntletUI">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.GauntletUI.dll</HintPath>
-    </Reference>
     <Reference Include="SandBox.View">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.View.dll</HintPath>
     </Reference>
@@ -92,9 +89,6 @@
     </Reference>
     <Reference Include="TaleWorlds.MountAndBlade.GauntletUI.Widgets">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.GauntletUI.Widgets.dll</HintPath>
-    </Reference>
-    <Reference Include="TaleWorlds.ObjectSystem">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
     </Reference>
     <Reference Include="TaleWorlds.ScreenSystem">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.ScreenSystem.dll</HintPath>
