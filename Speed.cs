@@ -2,6 +2,7 @@
 {
     public enum Speed
     {
+        Other,
         FastForward,
         ExtraFastForward,
         CtrlSpace

@@ -60,10 +60,12 @@ namespace BetterTime
                     case 0:
                     case 6:
                         PauseButton.IsSelected = true;
+                        Support.SetTimeSpeed(Speed.Other);
                         break;
                     case 1:
                     case 3:
                         PlayButton.IsSelected = true;
+                        Support.SetTimeSpeed(Speed.Other);
                         break;
                     case 2:
                     case 4:
