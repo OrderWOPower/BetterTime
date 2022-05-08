@@ -21,6 +21,7 @@ namespace BetterTime
                 if (value != _fastFastForwardHint)
                 {
                     _fastFastForwardHint = value;
+                    ViewModel?.OnPropertyChangedWithValue(value, "FastFastForwardHint");
                 }
             }
         }
