@@ -7,7 +7,7 @@ namespace BetterTime
     public class Prefab
     {
         // Replace the Center Panel with a stretched version to fit the Extra Fast Forward button.
-        [PrefabExtension("MapBar", "descendant::MapCurrentTimeVisualWidget", "MapBar")]
+        [PrefabExtension("MapBar", "descendant::MapCurrentTimeVisualWidget")]
         public class PrefabCenterPanel : PrefabExtensionInsertPatch
         {
             public override InsertType Type => InsertType.ReplaceKeepChildren;
@@ -17,14 +17,14 @@ namespace BetterTime
         }
 
         // Reposition the date due to the stretched Center Panel.
-        [PrefabExtension("MapBar", "descendant::TimePanel/Children/TextWidget", "MapBar")]
+        [PrefabExtension("MapBar", "descendant::TimePanel/Children/TextWidget")]
         public class PrefabDate : PrefabExtensionSetAttributePatch
         {
             public override List<Attribute> Attributes => new List<Attribute> { new Attribute("SuggestedWidth", "220"), new Attribute("PositionXOffset", "15") };
         }
 
         // Add the Extra Fast Forward button to the Center Panel.
-        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='FastForwardButton']", "MapBar")]
+        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='FastForwardButton']")]
         public class PrefabFastFastForwardButton : PrefabExtensionInsertPatch
         {
             public override InsertType Type => InsertType.Prepend;
@@ -34,21 +34,21 @@ namespace BetterTime
         }
 
         // Reposition the Fast Forward button due to the stretched Center Panel.
-        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='FastForwardButton']", "MapBar")]
+        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='FastForwardButton']")]
         public class PrefabFastForwardButton : PrefabExtensionSetAttributePatch
         {
             public override List<Attribute> Attributes => new List<Attribute> { new Attribute("PositionXOffset", "-105") };
         }
 
         // Reposition the Play button due to the stretched Center Panel.
-        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='PlayButton']", "MapBar")]
+        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='PlayButton']")]
         public class PrefabPlayButton : PrefabExtensionSetAttributePatch
         {
             public override List<Attribute> Attributes => new List<Attribute> { new Attribute("PositionXOffset", "-145") };
         }
 
         // Reposition the Pause button due to the stretched Center Panel.
-        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='PauseButton']", "MapBar")]
+        [PrefabExtension("MapBar", "descendant::TimePanel/Children/ButtonWidget[@Id='PauseButton']")]
         public class PrefabPauseButton : PrefabExtensionSetAttributePatch
         {
             public override List<Attribute> Attributes => new List<Attribute> { new Attribute("PositionXOffset", "-185") };

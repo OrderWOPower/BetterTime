@@ -1,5 +1,6 @@
 ﻿using TaleWorlds.GauntletUI;
-using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map;
+using TaleWorlds.GauntletUI.BaseTypes;
+using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.MapBar;
 
 namespace BetterTime
 {
