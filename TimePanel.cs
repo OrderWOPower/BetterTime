@@ -78,6 +78,7 @@ namespace BetterTime
                         else
                         {
                             FastForwardButton.IsSelected = true;
+                            Support.SetTimeSpeed(Speed.FastForward);
                         }
                         break;
                 }
