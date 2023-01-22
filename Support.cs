@@ -3,7 +3,7 @@ using TaleWorlds.CampaignSystem;
 
 namespace BetterTime
 {
-    [HarmonyPatch(typeof(Campaign), "TickMapTime")]
+    [HarmonyPatch]
     public static class Support
     {
         private static Speed _speed;
@@ -20,6 +20,7 @@ namespace BetterTime
             }
         }
 
+        [HarmonyPatch(typeof(Campaign), "TickMapTime")]
         private static void Prefix(ref float realDt)
         {
             Settings settings = Settings.Instance;
