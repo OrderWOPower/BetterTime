@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\261550\2859188632\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.Harmony\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Bannerlord.ButterLib">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\261550\2859232415\bin\Win64_Shipping_Client\Bannerlord.ButterLib.dll</HintPath>
@@ -111,15 +111,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="TimePanel.cs" />
     <Compile Include="Mixin.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="GUI\BetterTimeSpriteData.xml" />
-    <Content Include="GUI\Prefabs\MapBar.xml" />
-    <Content Include="GUI\Prefabs\Map\MapBar.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

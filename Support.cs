@@ -11,6 +11,7 @@ namespace BetterTime
         public static Speed TimeSpeed
         {
             get => _speed;
+
             set
             {
                 if (value != _speed)
@@ -23,6 +24,7 @@ namespace BetterTime
         private static void Prefix(ref float realDt)
         {
             Settings settings = Settings.Instance;
+
             if (TimeSpeed == Speed.FastForward)
             {
                 realDt *= settings.FastForwardMultiplier / 4f;

@@ -15,11 +15,14 @@ namespace BetterTime
             {
                 return _fastFastForwardButton;
             }
+
             set
             {
                 if (_fastFastForwardButton == value)
                     return;
+
                 _fastFastForwardButton = value;
+
                 OnPropertyChanged(value, nameof(FastFastForwardButton));
             }
         }
@@ -30,10 +33,10 @@ namespace BetterTime
             AddState("Disabled");
         }
 
-        // Set the speeds when the respective buttons are clicked.
         protected override void OnUpdate(float dt)
         {
             base.OnUpdate(dt);
+
             if (IsDisabled)
             {
                 SetState("Disabled");
@@ -42,10 +45,12 @@ namespace BetterTime
             {
                 var fffc = FastFastForwardButton.ClickEventHandlers;
                 var ffc = FastForwardButton.ClickEventHandlers;
+
                 if (fffc.Count == 0)
                 {
                     fffc.Add(a => Support.SetTimeSpeed(Speed.ExtraFastForward));
                 }
+
                 if (ffc.Count == 0)
                 {
                     ffc.Add(a => Support.SetTimeSpeed(Speed.FastForward));
@@ -56,17 +61,20 @@ namespace BetterTime
                 PlayButton.IsSelected = false;
                 FastForwardButton.IsSelected = false;
                 FastFastForwardButton.IsSelected = false;
+
                 switch (CurrentTimeState)
                 {
                     case 0:
                     case 6:
                         PauseButton.IsSelected = true;
                         Support.SetTimeSpeed(Speed.Other);
+
                         break;
                     case 1:
                     case 3:
                         PlayButton.IsSelected = true;
                         Support.SetTimeSpeed(Speed.Other);
+
                         break;
                     case 2:
                     case 4:
@@ -80,6 +88,7 @@ namespace BetterTime
                             FastForwardButton.IsSelected = true;
                             Support.SetTimeSpeed(Speed.FastForward);
                         }
+
                         break;
                 }
             }

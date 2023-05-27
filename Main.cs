@@ -18,13 +18,13 @@ namespace BetterTime
 
         protected override void OnSubModuleLoad()
         {
-            new Harmony("mod.bannerlord.bettertime").PatchAll();
             UIExtender uiExtender = new UIExtender("BetterTime");
+
             uiExtender.Register(typeof(Main).Assembly);
             uiExtender.Enable();
+            new Harmony("mod.bannerlord.bettertime").PatchAll();
         }
 
-        // Set the speeds when the respective keys are pressed.
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             if (!_isHotKeyManagerCreated)
@@ -35,25 +35,29 @@ namespace BetterTime
                 HotKeys.LCtrl lCtrl = hotKeyManager.Add<HotKeys.LCtrl>();
                 HotKeys.RCtrl rCtrl = hotKeyManager.Add<HotKeys.RCtrl>();
                 HotKeys.Space space = hotKeyManager.Add<HotKeys.Space>();
-                bool isCtrlDown = false;
-                bool isSpaceDown = false;
+                bool isCtrlDown = false, isSpaceDown = false;
+
                 d3.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 d4.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 space.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 d3.OnPressedEvent += () => OnPressed(d3);
                 d4.OnPressedEvent += () => OnPressed(d4);
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
+
                 lCtrl.OnReleasedEvent += () =>
                 {
                     isCtrlDown = false;
                     OnReleased(lCtrl);
                 };
+
                 rCtrl.OnPressedEvent += () => isCtrlDown = true;
+
                 rCtrl.OnReleasedEvent += () =>
                 {
                     isCtrlDown = false;
                     OnReleased(rCtrl);
                 };
+
                 space.OnPressedEvent += () =>
                 {
                     if (isCtrlDown)
@@ -62,6 +66,7 @@ namespace BetterTime
                         OnPressed(space);
                     }
                 };
+
                 space.IsDownEvent += () =>
                 {
                     if (isSpaceDown)
@@ -69,12 +74,15 @@ namespace BetterTime
                         IsDown(space);
                     }
                 };
+
                 space.OnReleasedEvent += () =>
                 {
                     isSpaceDown = false;
                     OnReleased(space);
                 };
+
                 hotKeyManager.Build();
+
                 _isHotKeyManagerCreated = true;
             }
         }
