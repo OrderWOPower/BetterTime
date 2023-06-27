@@ -4,6 +4,7 @@ using TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace BetterTime
 {
@@ -33,7 +34,7 @@ namespace BetterTime
             FastFastForwardHint = new BasicTooltipViewModel(delegate ()
             {
                 // Add the hint tooltip to the Extra Fast Forward button.
-                GameTexts.SetVariable("TEXT", "Extra Fast Forward");
+                GameTexts.SetVariable("TEXT", new TextObject("{=BT006.1693}Extra Fast Forward"));
                 GameTexts.SetVariable("HOTKEY", "4");
 
                 return GameTexts.FindText("str_hotkey_with_hint", null).ToString();

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="English" />
+  </tags>
+  <strings>
+    <string id="BT001.7286" text="Fast Forward Button" />
+    <string id="BT001.7286Hint" text="Speed multiplier for the fast forward button. Default is 4." />
+    <string id="BT002.8010" text="Speed Multipliers" />
+    <string id="BT003.2244" text="Extra Fast Forward Button" />
+    <string id="BT003.2244Hint" text="Speed multiplier for the extra fast forward button. Default is 8." />
+    <string id="BT004.1356" text="Ctrl + Space" />
+    <string id="BT004.1356Hint" text="Speed multiplier for holding ctrl + space. Default is 16." />
+    <string id="BT006.1693" text="Extra Fast Forward" />
+  </strings>
+</base>
