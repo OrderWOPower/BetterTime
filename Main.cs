@@ -89,54 +89,45 @@ namespace BetterTime
 
         private void OnPressed(HotKeyBase hotKey)
         {
-            if (Campaign.Current != null)
+            if (!PlayerEncounter.IsActive || (PlayerEncounter.IsActive && PlayerEncounter.Current.IsPlayerWaiting) || (PlayerEncounter.InsideSettlement && PlayerEncounter.EncounterSettlement.IsHideout))
             {
-                if (PlayerEncounter.Current == null || (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting))
+                if (hotKey is HotKeys.D3)
                 {
-                    if (hotKey is HotKeys.D3)
-                    {
-                        Support.SetTimeSpeed(Speed.FastForward);
-                    }
-                    else if (hotKey is HotKeys.D4)
-                    {
-                        Support.SetTimeSpeed(Speed.ExtraFastForward);
-                        Campaign.Current.SetTimeSpeed(2);
-                    }
-                    else if (hotKey is HotKeys.Space)
-                    {
-                        _currentSpeed = Support.TimeSpeed;
-                        _currentTimeMode = Campaign.Current.TimeControlMode;
-                    }
+                    Support.SetTimeSpeed(Speed.FastForward);
+                }
+                else if (hotKey is HotKeys.D4)
+                {
+                    Support.SetTimeSpeed(Speed.ExtraFastForward);
+                    Campaign.Current.SetTimeSpeed(2);
+                }
+                else if (hotKey is HotKeys.Space)
+                {
+                    _currentSpeed = Support.TimeSpeed;
+                    _currentTimeMode = Campaign.Current.TimeControlMode;
                 }
             }
         }
 
         private void IsDown(HotKeyBase hotKey)
         {
-            if (Campaign.Current != null)
+            if (!PlayerEncounter.IsActive || (PlayerEncounter.IsActive && PlayerEncounter.Current.IsPlayerWaiting) || (PlayerEncounter.InsideSettlement && PlayerEncounter.EncounterSettlement.IsHideout))
             {
-                if (PlayerEncounter.Current == null || (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting))
+                if (hotKey is HotKeys.Space)
                 {
-                    if (hotKey is HotKeys.Space)
-                    {
-                        Support.SetTimeSpeed(Speed.CtrlSpace);
-                        Campaign.Current.SetTimeSpeed(2);
-                    }
+                    Support.SetTimeSpeed(Speed.CtrlSpace);
+                    Campaign.Current.SetTimeSpeed(2);
                 }
             }
         }
 
         private void OnReleased(HotKeyBase hotKey)
         {
-            if (Campaign.Current != null)
+            if (hotKey is HotKeys.LCtrl || hotKey is HotKeys.RCtrl || hotKey is HotKeys.Space)
             {
-                if (hotKey is HotKeys.LCtrl || hotKey is HotKeys.RCtrl || hotKey is HotKeys.Space)
+                if (Support.TimeSpeed == Speed.CtrlSpace)
                 {
-                    if (Support.TimeSpeed == Speed.CtrlSpace)
-                    {
-                        Support.SetTimeSpeed(_currentSpeed);
-                        Campaign.Current.TimeControlMode = _currentTimeMode;
-                    }
+                    Support.SetTimeSpeed(_currentSpeed);
+                    Campaign.Current.TimeControlMode = _currentTimeMode;
                 }
             }
         }
