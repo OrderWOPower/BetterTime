@@ -37,26 +37,14 @@ namespace BetterTime
                 HotKeys.Space space = hotKeyManager.Add<HotKeys.Space>();
                 bool isCtrlDown = false, isSpaceDown = false;
 
-                d3.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                d4.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                space.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                d3.Predicate = () => Campaign.Current != null && ScreenManager.TopScreen is MapScreen;
+                d4.Predicate = () => Campaign.Current != null && ScreenManager.TopScreen is MapScreen;
+                space.Predicate = () => Campaign.Current != null && ScreenManager.TopScreen is MapScreen;
+
                 d3.OnPressedEvent += () => OnPressed(d3);
                 d4.OnPressedEvent += () => OnPressed(d4);
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
-
-                lCtrl.OnReleasedEvent += () =>
-                {
-                    isCtrlDown = false;
-                    OnReleased(lCtrl);
-                };
-
                 rCtrl.OnPressedEvent += () => isCtrlDown = true;
-
-                rCtrl.OnReleasedEvent += () =>
-                {
-                    isCtrlDown = false;
-                    OnReleased(rCtrl);
-                };
 
                 space.OnPressedEvent += () =>
                 {
@@ -73,6 +61,18 @@ namespace BetterTime
                     {
                         IsDown(space);
                     }
+                };
+
+                lCtrl.OnReleasedEvent += () =>
+                {
+                    isCtrlDown = false;
+                    OnReleased(lCtrl);
+                };
+
+                rCtrl.OnReleasedEvent += () =>
+                {
+                    isCtrlDown = false;
+                    OnReleased(rCtrl);
                 };
 
                 space.OnReleasedEvent += () =>
