@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="简体中文" />
+  </tags>
+  <strings>
+    <string id="BT001.7286" text="快进按钮" />
+    <string id="BT001.7286Hint" text="快进按钮的速度乘数。默认为4。" />
+    <string id="BT002.8010" text="速度乘数" />
+    <string id="BT003.2244" text="超快进按钮" />
+    <string id="BT003.2244Hint" text="超快进按钮的速度乘数。默认为8。" />
+    <string id="BT004.1356" text="Ctrl + Space" />
+    <string id="BT004.1356Hint" text="按住ctrl + space的速度乘数。默认为16。" />
+    <string id="BT006.1693" text="超快进" />
+  </strings>
+</base>
