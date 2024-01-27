@@ -5,20 +5,6 @@ namespace BetterTime
 {
     public class HotKeys
     {
-        public class D3 : HotKeyBase
-        {
-            protected override InputKey DefaultKey { get; }
-
-            public D3() : base(nameof(D3)) => DefaultKey = InputKey.D3;
-        }
-
-        public class D4 : HotKeyBase
-        {
-            protected override InputKey DefaultKey { get; }
-
-            public D4() : base(nameof(D4)) => DefaultKey = InputKey.D4;
-        }
-
         public class LCtrl : HotKeyBase
         {
             protected override InputKey DefaultKey { get; }
@@ -31,6 +17,20 @@ namespace BetterTime
             protected override InputKey DefaultKey { get; }
 
             public RCtrl() : base(nameof(RCtrl)) => DefaultKey = InputKey.RightControl;
+        }
+
+        public class D3 : HotKeyBase
+        {
+            protected override InputKey DefaultKey { get; }
+
+            public D3() : base(nameof(D3)) => DefaultKey = InputKey.D3;
+        }
+
+        public class D4 : HotKeyBase
+        {
+            protected override InputKey DefaultKey { get; }
+
+            public D4() : base(nameof(D4)) => DefaultKey = InputKey.D4;
         }
 
         public class Space : HotKeyBase

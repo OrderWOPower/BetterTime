@@ -1,44 +1,19 @@
-﻿using HarmonyLib;
-using TaleWorlds.CampaignSystem;
+﻿using TaleWorlds.CampaignSystem;
 
 namespace BetterTime
 {
-    [HarmonyPatch(typeof(Campaign), "TickMapTime")]
     public static class Support
     {
-        private static Speed _speed;
+        public static bool IsSpaceDown { get; set; }
 
-        public static Speed TimeSpeed
-        {
-            get => _speed;
+        public static float CurrentSpeed { get; set; }
 
-            set
-            {
-                if (value != _speed)
-                {
-                    _speed = value;
-                }
-            }
-        }
+        public static CampaignTimeControlMode CurrentTimeMode { get; set; }
 
-        private static void Prefix(ref float realDt)
-        {
-            Settings settings = Settings.Instance;
+        public static void SetSpaceDown(bool isSpaceDown) => IsSpaceDown = isSpaceDown;
 
-            if (TimeSpeed == Speed.FastForward)
-            {
-                realDt *= settings.FastForwardMultiplier / 4f;
-            }
-            else if (TimeSpeed == Speed.ExtraFastForward)
-            {
-                realDt *= settings.ExtraFastForwardMultiplier / 4f;
-            }
-            else if (TimeSpeed == Speed.CtrlSpace)
-            {
-                realDt *= settings.CtrlSpaceMultiplier / 4f;
-            }
-        }
+        public static void SetSpeed(float currentSpeed) => CurrentSpeed = currentSpeed;
 
-        public static void SetTimeSpeed(Speed speed) => TimeSpeed = speed;
+        public static void SetTimeMode(CampaignTimeControlMode currentTimeMode) => CurrentTimeMode = currentTimeMode;
     }
 }

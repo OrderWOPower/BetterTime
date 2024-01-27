@@ -1,4 +1,6 @@
-﻿using TaleWorlds.GauntletUI;
+﻿using System.Linq;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.GauntletUI;
 using TaleWorlds.GauntletUI.BaseTypes;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.MapBar;
 
@@ -35,6 +37,9 @@ namespace BetterTime
 
         protected override void OnUpdate(float dt)
         {
+            Campaign campaign = Campaign.Current;
+            Settings settings = Settings.Instance;
+
             base.OnUpdate(dt);
 
             if (IsDisabled)
@@ -43,17 +48,17 @@ namespace BetterTime
             }
             else
             {
-                var fffc = FastFastForwardButton.ClickEventHandlers;
                 var ffc = FastForwardButton.ClickEventHandlers;
+                var fffc = FastFastForwardButton.ClickEventHandlers;
 
-                if (fffc.Count == 0)
+                if (!ffc.Any())
                 {
-                    fffc.Add(a => Support.SetTimeSpeed(Speed.ExtraFastForward));
+                    ffc.Add(a => campaign.SpeedUpMultiplier = settings.FastForwardMultiplier);
                 }
 
-                if (ffc.Count == 0)
+                if (!fffc.Any())
                 {
-                    ffc.Add(a => Support.SetTimeSpeed(Speed.FastForward));
+                    fffc.Add(a => campaign.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier);
                 }
 
                 SetState("Default");
@@ -67,31 +72,40 @@ namespace BetterTime
                     case 0:
                     case 6:
                         PauseButton.IsSelected = true;
-                        Support.SetTimeSpeed(Speed.Other);
 
                         break;
                     case 1:
                     case 3:
                         PlayButton.IsSelected = true;
-                        Support.SetTimeSpeed(Speed.Other);
 
                         break;
                     case 2:
                     case 4:
                     case 5:
-                        if (Support.TimeSpeed == Speed.ExtraFastForward || Support.TimeSpeed == Speed.CtrlSpace)
+                        if (campaign.SpeedUpMultiplier > settings.FastForwardMultiplier)
                         {
                             FastFastForwardButton.IsSelected = true;
                         }
                         else
                         {
                             FastForwardButton.IsSelected = true;
-                            Support.SetTimeSpeed(Speed.FastForward);
                         }
 
                         break;
                 }
             }
+
+            if (!Support.IsSpaceDown && campaign.SpeedUpMultiplier == settings.CtrlSpaceMultiplier)
+            {
+                campaign.SpeedUpMultiplier = Support.CurrentSpeed;
+
+                if (campaign.CurrentMenuContext == null || (campaign.CurrentMenuContext.GameMenu.IsWaitActive && !campaign.TimeControlModeLock))
+                {
+                    campaign.TimeControlMode = Support.CurrentTimeMode;
+                }
+            }
+
+            Support.SetSpaceDown(false);
         }
     }
 }
