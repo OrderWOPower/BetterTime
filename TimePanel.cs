@@ -94,18 +94,6 @@ namespace BetterTime
                         break;
                 }
             }
-
-            if (!Support.IsSpaceDown && campaign.SpeedUpMultiplier == settings.CtrlSpaceMultiplier)
-            {
-                campaign.SpeedUpMultiplier = Support.CurrentSpeed;
-
-                if (campaign.CurrentMenuContext == null || (campaign.CurrentMenuContext.GameMenu.IsWaitActive && !campaign.TimeControlModeLock))
-                {
-                    campaign.TimeControlMode = Support.CurrentTimeMode;
-                }
-            }
-
-            Support.SetSpaceDown(false);
         }
     }
 }

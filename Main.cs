@@ -1,17 +1,16 @@
-﻿using Bannerlord.ButterLib.HotKeys;
-using Bannerlord.UIExtenderEx;
+﻿using Bannerlord.UIExtenderEx;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.ScreenSystem;
-using static BetterTime.HotKeys;
 
 namespace BetterTime
 {
     // This mod adds an extra speed button to the time control panel. It is a fork of the original mod by Shemiroth, which I took over after it was discontinued.
-    public partial class Main : MBSubModuleBase
+    public class Main : MBSubModuleBase
     {
-        private bool _isHotKeyManagerCreated;
+        private float _currentSpeed;
+        private CampaignTimeControlMode _currentTimeMode;
 
         protected override void OnSubModuleLoad()
         {
@@ -21,53 +20,47 @@ namespace BetterTime
             uiExtender.Enable();
         }
 
-        protected override void OnBeforeInitialModuleScreenSetAsRoot()
+        protected override void OnApplicationTick(float dt)
         {
-            if (!_isHotKeyManagerCreated)
+            Campaign campaign = Campaign.Current;
+
+            if (campaign != null)
             {
-                HotKeyManager hotKeyManager = HotKeyManager.Create("BetterTime");
-                LCtrl lCtrl = hotKeyManager.Add<LCtrl>();
-                RCtrl rCtrl = hotKeyManager.Add<RCtrl>();
-                D3 d3 = hotKeyManager.Add<D3>();
-                D4 d4 = hotKeyManager.Add<D4>();
-                Space space = hotKeyManager.Add<Space>();
-                Settings settings = Settings.Instance;
+                IInputContext input = MapScreen.Instance?.Input;
 
-                lCtrl.Predicate = () => Campaign.Current != null;
-                rCtrl.Predicate = () => Campaign.Current != null;
-                d3.Predicate = () => Campaign.Current != null && (Campaign.Current.CurrentMenuContext == null || (Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive && !Campaign.Current.TimeControlModeLock)) && ScreenManager.TopScreen is MapScreen;
-                d4.Predicate = () => Campaign.Current != null && (Campaign.Current.CurrentMenuContext == null || (Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive && !Campaign.Current.TimeControlModeLock)) && ScreenManager.TopScreen is MapScreen;
-                space.Predicate = () => Campaign.Current != null && (Campaign.Current.CurrentMenuContext == null || (Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive && !Campaign.Current.TimeControlModeLock)) && ScreenManager.TopScreen is MapScreen;
+                if (input != null && (campaign.CurrentMenuContext == null || (campaign.CurrentMenuContext.GameMenu.IsWaitActive && !campaign.TimeControlModeLock)))
+                {
+                    Settings settings = Settings.Instance;
 
-                lCtrl.OnPressedEvent += () =>
-                {
-                    Support.SetSpeed(Campaign.Current.SpeedUpMultiplier);
-                    Support.SetTimeMode(Campaign.Current.TimeControlMode);
-                    space.IsEnabled = true;
-                };
-                lCtrl.OnReleasedEvent += () => space.IsEnabled = false;
-                rCtrl.OnPressedEvent += () =>
-                {
-                    Support.SetSpeed(Campaign.Current.SpeedUpMultiplier);
-                    Support.SetTimeMode(Campaign.Current.TimeControlMode);
-                    space.IsEnabled = true;
-                };
-                rCtrl.OnReleasedEvent += () => space.IsEnabled = false;
-                d3.OnPressedEvent += () => Campaign.Current.SpeedUpMultiplier = settings.FastForwardMultiplier;
-                d4.OnPressedEvent += () =>
-                {
-                    Campaign.Current.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier;
-                    Campaign.Current.SetTimeSpeed(2);
-                };
-                space.IsDownEvent += () =>
-                {
-                    Campaign.Current.SpeedUpMultiplier = settings.CtrlSpaceMultiplier;
-                    Campaign.Current.SetTimeSpeed(2);
-                    Support.SetSpaceDown(true);
-                };
-                hotKeyManager.Build();
+                    if (input.IsKeyPressed(InputKey.D3))
+                    {
+                        campaign.SpeedUpMultiplier = settings.FastForwardMultiplier;
+                    }
 
-                _isHotKeyManagerCreated = true;
+                    if (input.IsKeyPressed(InputKey.D4))
+                    {
+                        campaign.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier;
+                        campaign.SetTimeSpeed(2);
+                    }
+
+                    if (input.IsControlDown() && input.IsKeyPressed(InputKey.Space))
+                    {
+                        campaign.SpeedUpMultiplier = settings.CtrlSpaceMultiplier;
+                        campaign.SetTimeSpeed(2);
+                    }
+
+                    if ((!input.IsControlDown() || input.IsKeyReleased(InputKey.Space)) && campaign.SpeedUpMultiplier == settings.CtrlSpaceMultiplier)
+                    {
+                        campaign.SpeedUpMultiplier = _currentSpeed;
+                        campaign.TimeControlMode = _currentTimeMode;
+                    }
+
+                    if (!input.IsControlDown() && !input.IsKeyDown(InputKey.Space))
+                    {
+                        _currentSpeed = campaign.SpeedUpMultiplier;
+                        _currentTimeMode = campaign.TimeControlMode;
+                    }
+                }
             }
         }
     }
