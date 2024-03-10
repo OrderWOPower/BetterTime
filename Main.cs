@@ -1,6 +1,7 @@
 ﻿using Bannerlord.UIExtenderEx;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
 
@@ -27,8 +28,9 @@ namespace BetterTime
             if (campaign != null)
             {
                 IInputContext input = MapScreen.Instance?.Input;
+                MenuContext currentMenuContext = campaign.CurrentMenuContext;
 
-                if (input != null && (campaign.CurrentMenuContext == null || (campaign.CurrentMenuContext.GameMenu.IsWaitActive && !campaign.TimeControlModeLock)))
+                if (input != null && (currentMenuContext == null || (currentMenuContext.GameMenu != null && currentMenuContext.GameMenu.IsWaitActive && !campaign.TimeControlModeLock)))
                 {
                     Settings settings = Settings.Instance;
 
