@@ -14,7 +14,7 @@ namespace BetterTime
 
         protected override void OnSubModuleLoad()
         {
-            UIExtender uiExtender = UIExtender.Create("BetterTime");
+            UIExtender uiExtender = new UIExtender("BetterTime");
 
             uiExtender.Register(typeof(Main).Assembly);
             uiExtender.Enable();
