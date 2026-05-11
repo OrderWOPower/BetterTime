@@ -6,94 +6,94 @@ using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.MapBar;
 
 namespace BetterTime
 {
-    public class TimePanel : MapCurrentTimeVisualWidget
-    {
-        private ButtonWidget _fastFastForwardButton;
+	public class TimePanel : MapCurrentTimeVisualWidget
+	{
+		private ButtonWidget _fastFastForwardButton;
 
-        [Editor(false)]
-        public ButtonWidget FastFastForwardButton
-        {
-            get
-            {
-                return _fastFastForwardButton;
-            }
+		[Editor(false)]
+		public ButtonWidget FastFastForwardButton
+		{
+			get
+			{
+				return _fastFastForwardButton;
+			}
 
-            set
-            {
-                if (_fastFastForwardButton == value)
-                    return;
+			set
+			{
+				if (_fastFastForwardButton == value)
+					return;
 
-                _fastFastForwardButton = value;
+				_fastFastForwardButton = value;
 
-                OnPropertyChanged(value, nameof(FastFastForwardButton));
-            }
-        }
+				OnPropertyChanged(value, nameof(FastFastForwardButton));
+			}
+		}
 
-        public TimePanel(UIContext context)
-            : base(context)
-        {
-            AddState("Disabled");
-        }
+		public TimePanel(UIContext context)
+			: base(context)
+		{
+			AddState("Disabled");
+		}
 
-        protected override void OnUpdate(float dt)
-        {
-            Campaign campaign = Campaign.Current;
-            Settings settings = Settings.Instance;
+		protected override void OnUpdate(float dt)
+		{
+			Campaign campaign = Campaign.Current;
+			Settings settings = Settings.Instance;
 
-            base.OnUpdate(dt);
+			base.OnUpdate(dt);
 
-            if (IsDisabled)
-            {
-                SetState("Disabled");
-            }
-            else
-            {
-                var ffc = FastForwardButton.ClickEventHandlers;
-                var fffc = FastFastForwardButton.ClickEventHandlers;
+			if (IsDisabled)
+			{
+				SetState("Disabled");
+			}
+			else
+			{
+				var ffc = FastForwardButton.ClickEventHandlers;
+				var fffc = FastFastForwardButton.ClickEventHandlers;
 
-                if (!ffc.Any())
-                {
-                    ffc.Add(a => campaign.SpeedUpMultiplier = settings.FastForwardMultiplier);
-                }
+				if (!ffc.Any())
+				{
+					ffc.Add(a => campaign.SpeedUpMultiplier = settings.FastForwardMultiplier);
+				}
 
-                if (!fffc.Any())
-                {
-                    fffc.Add(a => campaign.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier);
-                }
+				if (!fffc.Any())
+				{
+					fffc.Add(a => campaign.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier);
+				}
 
-                SetState("Default");
-                PauseButton.IsSelected = false;
-                PlayButton.IsSelected = false;
-                FastForwardButton.IsSelected = false;
-                FastFastForwardButton.IsSelected = false;
+				SetState("Default");
+				PauseButton.IsSelected = false;
+				PlayButton.IsSelected = false;
+				FastForwardButton.IsSelected = false;
+				FastFastForwardButton.IsSelected = false;
 
-                switch (CurrentTimeState)
-                {
-                    case 0:
-                    case 6:
-                        PauseButton.IsSelected = true;
+				switch (CurrentTimeState)
+				{
+					case 0:
+					case 6:
+						PauseButton.IsSelected = true;
 
-                        break;
-                    case 1:
-                    case 3:
-                        PlayButton.IsSelected = true;
+						break;
+					case 1:
+					case 3:
+						PlayButton.IsSelected = true;
 
-                        break;
-                    case 2:
-                    case 4:
-                    case 5:
-                        if (campaign.SpeedUpMultiplier > settings.FastForwardMultiplier)
-                        {
-                            FastFastForwardButton.IsSelected = true;
-                        }
-                        else
-                        {
-                            FastForwardButton.IsSelected = true;
-                        }
+						break;
+					case 2:
+					case 4:
+					case 5:
+						if (campaign.SpeedUpMultiplier > settings.FastForwardMultiplier)
+						{
+							FastFastForwardButton.IsSelected = true;
+						}
+						else
+						{
+							FastForwardButton.IsSelected = true;
+						}
 
-                        break;
-                }
-            }
-        }
-    }
+						break;
+				}
+			}
+		}
+	}
 }
