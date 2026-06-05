@@ -48,50 +48,53 @@ namespace BetterTime
 			}
 			else
 			{
-				var ffc = FastForwardButton.ClickEventHandlers;
-				var fffc = FastFastForwardButton.ClickEventHandlers;
-
-				if (!ffc.Any())
+				if (FastForwardButton != null && FastFastForwardButton != null)
 				{
-					ffc.Add(a => campaign.SpeedUpMultiplier = settings.FastForwardMultiplier);
-				}
+					var ffc = FastForwardButton.ClickEventHandlers;
+					var fffc = FastFastForwardButton.ClickEventHandlers;
 
-				if (!fffc.Any())
-				{
-					fffc.Add(a => campaign.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier);
-				}
+					if (!ffc.Any())
+					{
+						ffc.Add(a => campaign.SpeedUpMultiplier = settings.FastForwardMultiplier);
+					}
 
-				SetState("Default");
-				PauseButton.IsSelected = false;
-				PlayButton.IsSelected = false;
-				FastForwardButton.IsSelected = false;
-				FastFastForwardButton.IsSelected = false;
+					if (!fffc.Any())
+					{
+						fffc.Add(a => campaign.SpeedUpMultiplier = settings.ExtraFastForwardMultiplier);
+					}
 
-				switch (CurrentTimeState)
-				{
-					case 0:
-					case 6:
-						PauseButton.IsSelected = true;
+					SetState("Default");
+					PauseButton.IsSelected = false;
+					PlayButton.IsSelected = false;
+					FastForwardButton.IsSelected = false;
+					FastFastForwardButton.IsSelected = false;
 
-						break;
-					case 1:
-					case 3:
-						PlayButton.IsSelected = true;
+					switch (CurrentTimeState)
+					{
+						case 0:
+						case 6:
+							PauseButton.IsSelected = true;
 
-						break;
-					case 2:
-					case 4:
-					case 5:
-						if (campaign.SpeedUpMultiplier > settings.FastForwardMultiplier)
-						{
-							FastFastForwardButton.IsSelected = true;
-						}
-						else
-						{
-							FastForwardButton.IsSelected = true;
-						}
+							break;
+						case 1:
+						case 3:
+							PlayButton.IsSelected = true;
 
-						break;
+							break;
+						case 2:
+						case 4:
+						case 5:
+							if (campaign.SpeedUpMultiplier > settings.FastForwardMultiplier)
+							{
+								FastFastForwardButton.IsSelected = true;
+							}
+							else
+							{
+								FastForwardButton.IsSelected = true;
+							}
+
+							break;
+					}
 				}
 			}
 		}
